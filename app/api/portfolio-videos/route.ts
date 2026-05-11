@@ -5,7 +5,10 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   if (!hasSupabaseConfig()) {
-    return Response.json({videos: []});
+    return Response.json(
+      {message: 'Supabase environment variables are missing on the server', videos: []},
+      {status: 500},
+    );
   }
 
   const supabase = getSupabaseAdmin();
