@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-label="Brand launch thumbnail">
+  <rect width="960" height="720" fill="#f6f4ee"/>
+  <rect x="74" y="84" width="812" height="552" rx="36" fill="#070707"/>
+  <rect x="144" y="156" width="300" height="408" rx="24" fill="#fff"/>
+  <rect x="502" y="178" width="242" height="56" rx="28" fill="#d7ff65"/>
+  <rect x="502" y="276" width="310" height="28" rx="14" fill="#fff" opacity=".76"/>
+  <rect x="502" y="334" width="238" height="28" rx="14" fill="#fff" opacity=".32"/>
+  <rect x="502" y="392" width="282" height="28" rx="14" fill="#fff" opacity=".22"/>
+  <text x="144" y="642" fill="#050505" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="900">BRAND LAUNCH</text>
+</svg>

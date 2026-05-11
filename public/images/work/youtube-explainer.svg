@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-label="YouTube explainer thumbnail">
+  <rect width="960" height="720" fill="#070707"/>
+  <rect x="80" y="96" width="800" height="450" rx="34" fill="#151515"/>
+  <rect x="128" y="142" width="338" height="358" rx="24" fill="#66e8ff"/>
+  <rect x="520" y="174" width="248" height="42" rx="21" fill="#fff"/>
+  <rect x="520" y="256" width="304" height="24" rx="12" fill="#fff" opacity=".36"/>
+  <rect x="520" y="312" width="228" height="24" rx="12" fill="#fff" opacity=".26"/>
+  <rect x="520" y="368" width="272" height="24" rx="12" fill="#fff" opacity=".2"/>
+  <text x="80" y="642" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="900">YOUTUBE EXPLAINER</text>
+</svg>

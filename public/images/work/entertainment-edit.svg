@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-label="Entertainment edit thumbnail">
+  <rect width="960" height="720" fill="#111"/>
+  <path d="M0 520L960 160v560H0z" fill="#ff7a90"/>
+  <path d="M0 0h960v182L0 542z" fill="#66e8ff" opacity=".85"/>
+  <rect x="94" y="118" width="772" height="484" rx="30" fill="#050505" opacity=".72"/>
+  <circle cx="290" cy="360" r="92" fill="#d7ff65"/>
+  <circle cx="480" cy="360" r="92" fill="#fff"/>
+  <circle cx="670" cy="360" r="92" fill="#66e8ff"/>
+  <text x="110" y="654" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="46" font-weight="900">ENTERTAINMENT CUT</text>
+</svg>
