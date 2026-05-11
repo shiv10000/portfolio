@@ -20,29 +20,33 @@ export type AwsUploadTicket = {
 
 let s3Client: S3Client | null = null;
 
+function readEnv(primaryName: string, legacyName: string) {
+  return process.env[primaryName] || process.env[legacyName];
+}
+
 export function hasAwsStorageConfig() {
   return Boolean(
-    process.env.AWS_REGION &&
-      process.env.AWS_ACCESS_KEY_ID &&
-      process.env.AWS_SECRET_ACCESS_KEY &&
-      process.env.AWS_S3_BUCKET &&
-      process.env.AWS_CLOUDFRONT_DOMAIN,
+    readEnv('S3_REGION', 'AWS_REGION') &&
+      readEnv('S3_ACCESS_KEY_ID', 'AWS_ACCESS_KEY_ID') &&
+      readEnv('S3_SECRET_ACCESS_KEY', 'AWS_SECRET_ACCESS_KEY') &&
+      readEnv('S3_BUCKET', 'AWS_S3_BUCKET') &&
+      readEnv('CLOUDFRONT_DOMAIN', 'AWS_CLOUDFRONT_DOMAIN'),
   );
 }
 
-function getAwsBucket() {
-  const bucket = process.env.AWS_S3_BUCKET;
+export function getAwsBucket() {
+  const bucket = readEnv('S3_BUCKET', 'AWS_S3_BUCKET');
   if (!bucket) {
-    throw new Error('AWS_S3_BUCKET is missing');
+    throw new Error('S3_BUCKET is missing');
   }
 
   return bucket;
 }
 
 function getCloudFrontDomain() {
-  const domain = process.env.AWS_CLOUDFRONT_DOMAIN;
+  const domain = readEnv('CLOUDFRONT_DOMAIN', 'AWS_CLOUDFRONT_DOMAIN');
   if (!domain) {
-    throw new Error('AWS_CLOUDFRONT_DOMAIN is missing');
+    throw new Error('CLOUDFRONT_DOMAIN is missing');
   }
 
   return domain.replace(/\/+$/, '');
@@ -51,12 +55,12 @@ function getCloudFrontDomain() {
 function getS3Client() {
   if (s3Client) return s3Client;
 
-  const region = process.env.AWS_REGION;
-  const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
-  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+  const region = readEnv('S3_REGION', 'AWS_REGION');
+  const accessKeyId = readEnv('S3_ACCESS_KEY_ID', 'AWS_ACCESS_KEY_ID');
+  const secretAccessKey = readEnv('S3_SECRET_ACCESS_KEY', 'AWS_SECRET_ACCESS_KEY');
 
   if (!region || !accessKeyId || !secretAccessKey) {
-    throw new Error('AWS S3 env vars are missing');
+    throw new Error('S3 storage env vars are missing');
   }
 
   s3Client = new S3Client({

@@ -2,6 +2,7 @@ import {categories} from '@/data/categories';
 import {ADMIN_COOKIE_NAME, isValidAdminToken} from '@/lib/admin-auth';
 import {
   assertAwsObjectExists,
+  getAwsBucket,
   getPublicVideoUrl,
   hasAwsStorageConfig,
 } from '@/lib/aws-storage';
@@ -83,7 +84,7 @@ export async function POST(request: Request) {
       video_url: getPublicVideoUrl(objectKey),
       storage_provider: 'aws_s3',
       s3_object_key: objectKey,
-      s3_bucket: process.env.AWS_S3_BUCKET,
+      s3_bucket: getAwsBucket(),
       bytes: Number.isFinite(bytes) && bytes > 0 ? bytes : null,
       published: body.published !== false,
     })

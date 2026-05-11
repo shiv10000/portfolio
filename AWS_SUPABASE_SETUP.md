@@ -108,14 +108,14 @@ ADMIN_SESSION_SECRET=make-this-a-long-random-secret
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
 
-AWS_REGION=ap-south-1
-AWS_ACCESS_KEY_ID=your-aws-access-key-id
-AWS_SECRET_ACCESS_KEY=your-aws-secret-access-key
-AWS_S3_BUCKET=shivam-portfolio-videos
-AWS_CLOUDFRONT_DOMAIN=https://dxxxxxxxxxxxxx.cloudfront.net
+S3_REGION=ap-south-1
+S3_ACCESS_KEY_ID=your-aws-access-key-id
+S3_SECRET_ACCESS_KEY=your-aws-secret-access-key
+S3_BUCKET=shivam-portfolio-videos
+CLOUDFRONT_DOMAIN=https://dxxxxxxxxxxxxx.cloudfront.net
 ```
 
-Never put `AWS_SECRET_ACCESS_KEY` or `SUPABASE_SERVICE_ROLE_KEY` in frontend code.
+Never put `S3_SECRET_ACCESS_KEY` or `SUPABASE_SERVICE_ROLE_KEY` in frontend code.
 
 ## 6. Run Supabase SQL
 
