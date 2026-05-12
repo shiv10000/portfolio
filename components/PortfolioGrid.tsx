@@ -87,7 +87,7 @@ function UploadedPortfolioCard({item}: {item: UploadedPortfolioItem}) {
         <video
           ref={videoRef}
           src={item.videoUrl}
-          className="h-full w-full object-cover"
+          className="h-full w-full bg-black object-contain"
           autoPlay
           muted={muted}
           loop
