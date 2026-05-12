@@ -81,7 +81,7 @@ function UploadedPortfolioCard({item}: {item: UploadedPortfolioItem}) {
       animate={{opacity: 1, y: 0}}
       exit={{opacity: 0, scale: 0.96}}
       transition={{duration: 0.28}}
-      className="group overflow-hidden rounded-lg premium-border"
+      className="group shrink-0 basis-[82vw] snap-start overflow-hidden rounded-lg premium-border sm:basis-[58vw] md:basis-auto"
     >
       <div className="relative aspect-[9/16] overflow-hidden bg-black">
         <video
@@ -138,7 +138,7 @@ function DummyPortfolioCard({item}: {item: DummyPortfolioItem}) {
       animate={{opacity: 1, y: 0}}
       exit={{opacity: 0, scale: 0.96}}
       transition={{duration: 0.28}}
-      className="group overflow-hidden rounded-lg premium-border"
+      className="group shrink-0 basis-[82vw] snap-start overflow-hidden rounded-lg premium-border sm:basis-[58vw] md:basis-auto"
     >
       <div className="relative aspect-[9/16] overflow-hidden bg-white/5">
         <Image
@@ -281,20 +281,22 @@ export function PortfolioGrid() {
           </div>
         </div>
 
-        <motion.div
-          layout
-          className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredItems.map((item) =>
-              item.type === 'uploaded' ? (
-                <UploadedPortfolioCard key={item.id} item={item} />
-              ) : (
-                <DummyPortfolioCard key={item.title} item={item} />
-              ),
-            )}
-          </AnimatePresence>
-        </motion.div>
+        <div className="relative mt-8 md:mt-12">
+          <motion.div
+            layout
+            className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 pr-[18vw] md:grid md:snap-none md:grid-cols-2 md:gap-5 md:overflow-visible md:pb-0 md:pr-0 lg:grid-cols-3 xl:grid-cols-4"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredItems.map((item) =>
+                item.type === 'uploaded' ? (
+                  <UploadedPortfolioCard key={item.id} item={item} />
+                ) : (
+                  <DummyPortfolioCard key={item.title} item={item} />
+                ),
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </div>
 
         {filteredItems.length === 0 ? (
           <div className="mt-8 rounded-2xl border border-dashed border-white/14 bg-white/[0.025] p-8 text-center text-sm font-bold text-white/50">
