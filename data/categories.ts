@@ -28,11 +28,11 @@ export const categories: VideoCategory[] = [
     folder: 'AI Videos',
   },
   {
-    name: 'Brand Videos',
+    name: 'Event',
     description:
-      'Product and service edits with a clean brand feel, strong pacing, and polished delivery.',
+      'Event highlights, recaps, and announcement edits with strong pacing and polished delivery.',
     thumbnail: '/images/work/brand-launch.svg',
-    folder: 'Brand Videos',
+    folder: 'Event',
   },
   {
     name: 'Advertisement',

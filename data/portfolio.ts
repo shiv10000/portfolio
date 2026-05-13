@@ -3,7 +3,7 @@ export type PortfolioFilter =
   | 'Tech'
   | 'Cinematic'
   | 'AI Videos'
-  | 'Brand Videos'
+  | 'Event'
   | 'Advertisement';
 
 export type PortfolioItem = {
@@ -22,7 +22,7 @@ export const portfolioFilters: PortfolioFilter[] = [
   'Tech',
   'Cinematic',
   'AI Videos',
-  'Brand Videos',
+  'Event',
   'Advertisement',
 ];
 
@@ -70,13 +70,13 @@ export const portfolioItems: PortfolioItem[] = [
     result: 'Made the intro feel more branded and memorable.',
   },
   {
-    title: 'Brand Launch Cut',
-    category: 'Brand Videos',
-    filterCategory: 'Brand Videos',
+    title: 'Event Highlight Cut',
+    category: 'Event',
+    filterCategory: 'Event',
     thumbnail: '/images/work/brand-launch.svg',
     videoUrl: '#contact',
     description:
-      'Clean brand edit with product-focused pacing, music timing, and high-quality final polish.',
+      'Clean event edit with highlight-focused pacing, music timing, and high-quality final polish.',
     tools: ['Premiere Pro', 'DaVinci Resolve', 'Photoshop'],
   },
   {

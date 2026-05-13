@@ -37,7 +37,7 @@ const visibleCategoryNames = [
   'Tech',
   'Cinematic',
   'AI Videos',
-  'Brand Videos',
+  'Event',
   'Advertisement',
 ];
 
