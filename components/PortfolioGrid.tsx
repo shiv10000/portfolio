@@ -115,12 +115,11 @@ function UploadedPortfolioCard({item}: {item: UploadedPortfolioItem}) {
         >
           <ExternalLink size={16} />
         </a>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/88 via-black/35 to-transparent p-5">
-          <p className="text-xs font-black uppercase text-[#66e8ff]">
-            {item.category}
-          </p>
-          <h3 className="mt-2 text-xl font-black text-white">{item.title}</h3>
-          <p className="mt-2 text-sm leading-6 text-white/68">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex min-h-[8.25rem] flex-col justify-end bg-gradient-to-t from-black via-black/82 to-transparent p-5">
+          <h3 className="overflow-hidden text-ellipsis whitespace-nowrap text-xl font-black text-white">
+            {item.title}
+          </h3>
+          <p className="mt-2 overflow-hidden text-sm leading-6 text-white/68 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
             {item.description}
           </p>
         </div>

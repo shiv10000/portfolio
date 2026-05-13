@@ -79,8 +79,8 @@ export function Hero() {
         <div className="absolute inset-0 bg-black/5" />
       </div>
 
-      <div className="page-shell relative z-10 flex min-h-[calc(100vh-80px)] items-center py-12 sm:min-h-[calc(100vh-112px)] sm:py-20">
-        <div className="min-w-0 max-w-3xl">
+      <div className="page-shell relative z-10 flex min-h-[calc(100svh-80px)] items-center py-9 sm:min-h-[calc(100vh-112px)] sm:py-20">
+        <div className="mx-auto min-w-0 max-w-[25rem] text-center sm:mx-0 sm:max-w-3xl sm:text-left">
           <motion.div
             variants={{
               hidden: {},
@@ -91,19 +91,19 @@ export function Hero() {
           >
             <motion.p
               variants={lineVariants}
-              className="section-kicker mb-4 max-w-[18rem] sm:mb-5 sm:max-w-none"
+              className="section-kicker mx-auto mb-4 max-w-[21rem] text-[0.82rem] sm:mx-0 sm:mb-5 sm:max-w-none sm:text-[0.76rem]"
             >
               Video Editor + AI-Assisted Creative Workflow Specialist
             </motion.p>
             <motion.h1
               variants={lineVariants}
-              className="max-w-[21rem] text-[2.65rem] font-black leading-[1.03] text-white [overflow-wrap:anywhere] sm:max-w-3xl sm:text-6xl xl:text-7xl"
+              className="mx-auto max-w-[25rem] text-[clamp(2.55rem,11.4vw,3.15rem)] font-black leading-[1.02] text-white sm:mx-0 sm:max-w-3xl sm:text-6xl sm:leading-[1.03] xl:text-7xl"
             >
               Make Your Videos Look Premium, Engaging & Scroll-Stopping
             </motion.h1>
             <motion.p
               variants={lineVariants}
-              className="mt-5 max-w-[21rem] text-base leading-7 text-white/72 sm:mt-6 sm:max-w-2xl sm:text-lg sm:leading-8"
+              className="mx-auto mt-5 max-w-[24rem] text-[1.04rem] leading-8 text-white/74 sm:mx-0 sm:mt-6 sm:max-w-2xl sm:text-lg sm:leading-8"
             >
               I’m Shivam, a video editor with 4 years of experience and 200+
               videos edited across reels, shorts, tech videos, entertainment
@@ -111,7 +111,7 @@ export function Hero() {
             </motion.p>
             <motion.div
               variants={lineVariants}
-              className="mt-6 flex w-full max-w-[21rem] rounded-3xl border border-white/14 bg-white/8 px-4 py-3 text-sm font-bold leading-5 text-white shadow-2xl shadow-black/30 backdrop-blur sm:mt-7 sm:inline-flex sm:w-auto sm:max-w-full sm:rounded-full"
+              className="mx-auto mt-6 flex w-full max-w-[24rem] justify-center rounded-3xl border border-white/14 bg-white/8 px-4 py-3 text-center text-sm font-bold leading-5 text-white shadow-2xl shadow-black/30 backdrop-blur sm:mx-0 sm:mt-7 sm:inline-flex sm:w-auto sm:max-w-full sm:justify-start sm:rounded-full sm:text-left"
             >
               <span className="min-w-0 whitespace-normal sm:truncate">
                 4 Years Experience • 200+ Videos Edited • AI-Assisted Workflow
@@ -119,7 +119,7 @@ export function Hero() {
             </motion.div>
             <motion.div
               variants={lineVariants}
-              className="mt-8 flex w-full max-w-[21rem] flex-col gap-3 sm:mt-9 sm:max-w-none sm:flex-row"
+              className="mx-auto mt-8 flex w-full max-w-[24rem] flex-col gap-3 sm:mx-0 sm:mt-9 sm:max-w-none sm:flex-row"
             >
               <a
                 href="#work"
