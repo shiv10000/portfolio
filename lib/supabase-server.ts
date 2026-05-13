@@ -11,6 +11,7 @@ export type PortfolioVideoRow = {
   s3_bucket: string;
   bytes: number | null;
   published: boolean;
+  featured_rank: number | null;
   created_at: string;
 };
 

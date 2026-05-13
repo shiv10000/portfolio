@@ -1,11 +1,10 @@
 export type PortfolioFilter =
   | 'All'
-  | 'Reels'
   | 'Tech'
-  | 'Entertainment'
-  | 'Motion Graphics'
+  | 'Cinematic'
+  | 'AI Videos'
   | 'Brand Videos'
-  | 'YouTube';
+  | 'Advertisement';
 
 export type PortfolioItem = {
   title: string;
@@ -20,18 +19,17 @@ export type PortfolioItem = {
 
 export const portfolioFilters: PortfolioFilter[] = [
   'All',
-  'Reels',
   'Tech',
-  'Entertainment',
-  'Motion Graphics',
+  'Cinematic',
+  'AI Videos',
   'Brand Videos',
-  'YouTube',
+  'Advertisement',
 ];
 
 export const portfolioItems: PortfolioItem[] = [
   {
     title: 'AI Tool Reel',
-    category: 'Tech Reel',
+    category: 'Tech',
     filterCategory: 'Tech',
     thumbnail: '/images/work/ai-tool-reel.svg',
     videoUrl: '#contact',
@@ -42,8 +40,8 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     title: 'Creator Shorts Pack',
-    category: 'Reels & Shorts',
-    filterCategory: 'Reels',
+    category: 'Advertisement',
+    filterCategory: 'Advertisement',
     thumbnail: '/images/work/creator-shorts.svg',
     videoUrl: '#contact',
     description:
@@ -52,8 +50,8 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     title: 'Entertainment Edit',
-    category: 'Entertainment',
-    filterCategory: 'Entertainment',
+    category: 'Cinematic',
+    filterCategory: 'Cinematic',
     thumbnail: '/images/work/entertainment-edit.svg',
     videoUrl: '#contact',
     description:
@@ -62,8 +60,8 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     title: 'Motion Title Sequence',
-    category: 'Motion Graphics',
-    filterCategory: 'Motion Graphics',
+    category: 'AI Videos',
+    filterCategory: 'AI Videos',
     thumbnail: '/images/work/motion-title.svg',
     videoUrl: '#contact',
     description:
@@ -73,7 +71,7 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     title: 'Brand Launch Cut',
-    category: 'Brand Video',
+    category: 'Brand Videos',
     filterCategory: 'Brand Videos',
     thumbnail: '/images/work/brand-launch.svg',
     videoUrl: '#contact',
@@ -83,8 +81,8 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     title: 'YouTube Explainer Edit',
-    category: 'YouTube',
-    filterCategory: 'YouTube',
+    category: 'Tech',
+    filterCategory: 'Tech',
     thumbnail: '/images/work/youtube-explainer.svg',
     videoUrl: '#contact',
     description:

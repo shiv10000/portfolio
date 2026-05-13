@@ -11,6 +11,7 @@ create table if not exists public.portfolio_videos (
   s3_bucket text,
   bytes bigint,
   published boolean not null default true,
+  featured_rank integer,
   created_at timestamptz not null default now()
 );
 
@@ -22,6 +23,20 @@ add column if not exists s3_object_key text;
 
 alter table public.portfolio_videos
 add column if not exists s3_bucket text;
+
+alter table public.portfolio_videos
+add column if not exists featured_rank integer;
+
+alter table public.portfolio_videos
+drop constraint if exists portfolio_videos_featured_rank_check;
+
+alter table public.portfolio_videos
+add constraint portfolio_videos_featured_rank_check
+check (featured_rank is null or featured_rank between 1 and 4);
+
+create unique index if not exists portfolio_videos_featured_rank_unique_idx
+on public.portfolio_videos (featured_rank)
+where featured_rank is not null;
 
 do $$
 begin
@@ -57,3 +72,6 @@ using (published = true);
 
 create index if not exists portfolio_videos_published_created_at_idx
 on public.portfolio_videos (published, created_at desc);
+
+create index if not exists portfolio_videos_featured_created_at_idx
+on public.portfolio_videos (published, featured_rank asc, created_at desc);

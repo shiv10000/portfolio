@@ -3,8 +3,10 @@
 import {categories} from '@/data/categories';
 import {
   ExternalLink,
+  ListOrdered,
   LogOut,
   RefreshCw,
+  Save,
   Trash2,
   UploadCloud,
   Video,
@@ -28,6 +30,7 @@ type AdminVideo = {
   s3_object_key: string | null;
   bytes: number | null;
   published: boolean;
+  featured_rank: number | null;
   created_at: string;
 };
 
@@ -55,6 +58,13 @@ export function AdminUploadPanel() {
   const [adminVideos, setAdminVideos] = useState<AdminVideo[]>([]);
   const [activePanel, setActivePanel] = useState<AdminPanel>('upload');
   const [videosLoading, setVideosLoading] = useState(false);
+  const [rankingSaving, setRankingSaving] = useState(false);
+  const [rankingSelection, setRankingSelection] = useState<string[]>([
+    '',
+    '',
+    '',
+    '',
+  ]);
   const [deletingVideoId, setDeletingVideoId] = useState<string | null>(null);
   const [status, setStatus] = useState<UploadStatus>({
     type: 'idle',
@@ -89,8 +99,15 @@ export function AdminUploadPanel() {
         return;
       }
 
+      const videos = data.videos ?? [];
       setIsLoggedIn(true);
-      setAdminVideos(data.videos ?? []);
+      setAdminVideos(videos);
+      setRankingSelection(
+        [1, 2, 3, 4].map(
+          (rank) =>
+            videos.find((video) => video.featured_rank === rank)?.id ?? '',
+        ),
+      );
     } finally {
       if (!silent) {
         setVideosLoading(false);
@@ -278,9 +295,66 @@ export function AdminUploadPanel() {
     setAdminVideos((currentVideos) =>
       currentVideos.filter((currentVideo) => currentVideo.id !== video.id),
     );
+    setRankingSelection((currentSelection) =>
+      currentSelection.map((id) => (id === video.id ? '' : id)),
+    );
     setStatus({
       type: 'success',
       message: `"${video.title}" was deleted from the portfolio.`,
+    });
+  };
+
+  const handleRankingChange = (index: number, videoId: string) => {
+    setRankingSelection((currentSelection) =>
+      currentSelection.map((currentVideoId, currentIndex) => {
+        if (currentIndex === index) {
+          return videoId;
+        }
+
+        if (videoId && currentVideoId === videoId) {
+          return '';
+        }
+
+        return currentVideoId;
+      }),
+    );
+  };
+
+  const handleSaveRanking = async () => {
+    const rankedVideoIds = rankingSelection.filter(Boolean);
+
+    setRankingSaving(true);
+    setStatus({
+      type: 'loading',
+      message: 'Saving featured video order...',
+    });
+
+    const response = await fetch('/api/admin/videos', {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({rankedVideoIds}),
+    });
+    const data = (await response.json().catch(() => ({}))) as {
+      message?: string;
+    };
+
+    setRankingSaving(false);
+
+    if (!response.ok) {
+      setStatus({
+        type: 'error',
+        message: data.message ?? 'Could not save featured order.',
+      });
+      return;
+    }
+
+    await loadAdminVideos(true);
+    setStatus({
+      type: 'success',
+      message:
+        rankedVideoIds.length > 0
+          ? 'Featured video order saved.'
+          : 'Featured video order cleared.',
     });
   };
 
@@ -472,6 +546,66 @@ export function AdminUploadPanel() {
                       </button>
                     </div>
 
+                    <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+                      <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+                        <div>
+                          <p className="flex items-center gap-2 text-xs font-black uppercase text-[#9df3ff]">
+                            <ListOrdered className="h-4 w-4" aria-hidden="true" />
+                            Featured order
+                          </p>
+                          <h3 className="mt-2 text-xl font-black text-white">
+                            Choose the first 4 videos
+                          </h3>
+                          <p className="mt-2 max-w-2xl text-sm leading-6 text-white/52">
+                            These videos appear first on the public portfolio. All other published videos show after them once, with no duplicates.
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => void handleSaveRanking()}
+                          disabled={rankingSaving || videosLoading}
+                          className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-black text-black transition hover:bg-[#66e8ff] disabled:cursor-not-allowed disabled:opacity-55"
+                        >
+                          <Save className="h-4 w-4" aria-hidden="true" />
+                          {rankingSaving ? 'Saving...' : 'Save order'}
+                        </button>
+                      </div>
+
+                      <div className="mt-5 grid gap-3 md:grid-cols-2">
+                        {['1st video', '2nd video', '3rd video', '4th video'].map(
+                          (label, index) => (
+                            <label key={label} className="block">
+                              <span className="text-xs font-black uppercase text-white/44">
+                                {label}
+                              </span>
+                              <select
+                                value={rankingSelection[index] ?? ''}
+                                onChange={(event) =>
+                                  handleRankingChange(index, event.currentTarget.value)
+                                }
+                                className="mt-2 w-full rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-sm font-bold text-white outline-none transition focus:border-[#66e8ff]/60"
+                                disabled={adminVideos.length === 0}
+                              >
+                                <option value="">No featured video</option>
+                                {adminVideos.map((video) => (
+                                  <option
+                                    key={video.id}
+                                    value={video.id}
+                                    disabled={
+                                      rankingSelection.includes(video.id) &&
+                                      rankingSelection[index] !== video.id
+                                    }
+                                  >
+                                    {video.title}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                          ),
+                        )}
+                      </div>
+                    </div>
+
                     <div className="mt-6 grid gap-4">
                       {videosLoading ? (
                         <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5 text-sm font-bold text-white/52">
@@ -505,6 +639,11 @@ export function AdminUploadPanel() {
                               <span className="rounded-full border border-[#66e8ff]/20 bg-[#66e8ff]/10 px-3 py-1 text-xs font-black uppercase text-[#9df3ff]">
                                 {video.category}
                               </span>
+                              {video.featured_rank ? (
+                                <span className="rounded-full border border-[#d7ff65]/20 bg-[#d7ff65]/10 px-3 py-1 text-xs font-black uppercase text-[#e9ff9b]">
+                                  Featured #{video.featured_rank}
+                                </span>
+                              ) : null}
                               <span
                                 className={`rounded-full border px-3 py-1 text-xs font-black uppercase ${
                                   video.published

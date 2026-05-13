@@ -87,6 +87,7 @@ export async function POST(request: Request) {
       s3_bucket: getAwsBucket(),
       bytes: Number.isFinite(bytes) && bytes > 0 ? bytes : null,
       published: body.published !== false,
+      featured_rank: null,
     })
     .select()
     .single();

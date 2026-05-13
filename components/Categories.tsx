@@ -34,13 +34,11 @@ const cardAccents = [
 ];
 
 const visibleCategoryNames = [
-  'Tech Videos',
-  'Entertainment Videos',
-  'Reels & Shorts',
-  'Motion Graphics',
-  'Brand Ads',
-  'AI-Generated Videos',
-  'Cinematic Video Edits',
+  'Tech',
+  'Cinematic',
+  'AI Videos',
+  'Brand Videos',
+  'Advertisement',
 ];
 
 export function Categories() {

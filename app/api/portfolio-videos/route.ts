@@ -15,9 +15,10 @@ export async function GET() {
   const {data, error} = await supabase
     .from('portfolio_videos')
     .select(
-      'id,title,category,description,video_url,storage_provider,s3_object_key,s3_bucket,bytes,published,created_at',
+      'id,title,category,description,video_url,storage_provider,s3_object_key,s3_bucket,bytes,published,featured_rank,created_at',
     )
     .eq('published', true)
+    .order('featured_rank', {ascending: true, nullsFirst: false})
     .order('created_at', {ascending: false});
 
   if (error) {

@@ -1,13 +1,8 @@
 'use client';
 
-import {
-  portfolioFilters,
-  portfolioItems,
-  type PortfolioFilter,
-} from '@/data/portfolio';
+import {portfolioFilters, type PortfolioFilter} from '@/data/portfolio';
 import {AnimatePresence, motion} from 'framer-motion';
 import {ExternalLink, Volume2, VolumeX} from 'lucide-react';
-import Image from 'next/image';
 import {useEffect, useMemo, useRef, useState} from 'react';
 
 type CloudPortfolioVideo = {
@@ -21,6 +16,7 @@ type CloudPortfolioVideo = {
   s3_bucket: string;
   bytes: number | null;
   published: boolean;
+  featured_rank: number | null;
   created_at: string;
 };
 
@@ -34,27 +30,26 @@ type UploadedPortfolioItem = {
   description: string;
 };
 
-type DummyPortfolioItem = (typeof portfolioItems)[number] & {
-  type: 'dummy';
-};
-
-type DisplayPortfolioItem = UploadedPortfolioItem | DummyPortfolioItem;
-
 const categoryToFilter: Record<string, Exclude<PortfolioFilter, 'All'>> = {
+  Tech: 'Tech',
   'Tech Videos': 'Tech',
-  'Entertainment Videos': 'Entertainment',
-  'Reels & Shorts': 'Reels',
-  'Motion Graphics': 'Motion Graphics',
-  'Podcast Clips': 'Reels',
+  'YouTube Videos': 'Tech',
+  Cinematic: 'Cinematic',
+  'Cinematic Video Edits': 'Cinematic',
+  'Entertainment Videos': 'Cinematic',
+  'Event Highlight Videos': 'Cinematic',
+  'AI Videos': 'AI Videos',
+  'AI-Generated Videos': 'AI Videos',
+  'Motion Graphics': 'AI Videos',
+  'Brand Videos': 'Brand Videos',
   'Brand Ads': 'Brand Videos',
-  'YouTube Videos': 'YouTube',
-  'Instagram Content': 'Reels',
-  'AI-Generated Videos': 'Reels',
-  'Cinematic Video Edits': 'Entertainment',
-  'Product Promo Videos': 'Brand Videos',
-  'Caption-Heavy Reels': 'Reels',
-  'Vlog & Lifestyle Edits': 'Entertainment',
-  'Event Highlight Videos': 'Entertainment',
+  Advertisement: 'Advertisement',
+  'Product Promo Videos': 'Advertisement',
+  'Reels & Shorts': 'Advertisement',
+  'Podcast Clips': 'Advertisement',
+  'Instagram Content': 'Advertisement',
+  'Caption-Heavy Reels': 'Advertisement',
+  'Vlog & Lifestyle Edits': 'Advertisement',
 };
 
 function UploadedPortfolioCard({item}: {item: UploadedPortfolioItem}) {
@@ -128,73 +123,43 @@ function UploadedPortfolioCard({item}: {item: UploadedPortfolioItem}) {
   );
 }
 
-function DummyPortfolioCard({item}: {item: DummyPortfolioItem}) {
+function PortfolioLoadingGrid() {
   return (
-    <motion.article
-      layout
-      key={item.title}
-      initial={{opacity: 0, y: 28}}
-      animate={{opacity: 1, y: 0}}
-      exit={{opacity: 0, scale: 0.96}}
-      transition={{duration: 0.28}}
-      className="group shrink-0 basis-[82vw] snap-start overflow-hidden rounded-lg premium-border sm:basis-[58vw] md:basis-auto"
-    >
-      <div className="relative aspect-[9/16] overflow-hidden bg-white/5">
-        <Image
-          src={item.thumbnail}
-          alt=""
-          fill
-          className="object-cover transition duration-500 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition group-hover:bg-black/55">
-          <span className="translate-y-3 rounded-full bg-white px-4 py-2 text-sm font-black text-black opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100">
-            Watch Project
-          </span>
+    <div className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 pr-[18vw] md:grid md:snap-none md:grid-cols-2 md:gap-5 md:overflow-visible md:pb-0 md:pr-0 lg:grid-cols-3 xl:grid-cols-4">
+      {Array.from({length: 4}).map((_, index) => (
+        <div
+          key={index}
+          className="shrink-0 basis-[82vw] snap-start overflow-hidden rounded-lg border border-white/10 bg-white/[0.035] sm:basis-[58vw] md:basis-auto"
+        >
+          <div className="relative aspect-[9/16] overflow-hidden bg-black">
+            <div className="absolute inset-0 animate-pulse bg-[linear-gradient(115deg,rgba(255,255,255,0.035),rgba(255,255,255,0.12),rgba(255,255,255,0.035))]" />
+            <div className="absolute left-3 top-3 size-10 animate-pulse rounded-full bg-white/10" />
+            <div className="absolute right-3 top-3 size-10 animate-pulse rounded-full bg-white/10" />
+            <div className="absolute inset-x-0 bottom-0 p-5">
+              <div className="h-6 w-2/3 animate-pulse rounded-full bg-white/14" />
+              <div className="mt-3 h-4 w-full animate-pulse rounded-full bg-white/10" />
+              <div className="mt-2 h-4 w-4/5 animate-pulse rounded-full bg-white/10" />
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="p-5">
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-xs font-black uppercase text-[#66e8ff]">
-            {item.category}
-          </p>
-          <a
-            href={item.videoUrl}
-            className="inline-flex size-9 items-center justify-center rounded-full border border-white/12 text-white/70 transition hover:bg-white hover:text-black"
-            aria-label={`Watch ${item.title}`}
-          >
-            <ExternalLink size={16} />
-          </a>
-        </div>
-        <h3 className="mt-3 text-xl font-black text-white">{item.title}</h3>
-        <p className="mt-3 text-sm leading-6 text-white/62">
-          {item.description}
-        </p>
-        {item.result ? (
-          <p className="mt-3 text-sm font-bold text-white">{item.result}</p>
-        ) : null}
-        <div className="mt-5 flex flex-wrap gap-2">
-          {item.tools.map((tool) => (
-            <span
-              key={tool}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-bold text-white/62"
-            >
-              {tool}
-            </span>
-          ))}
-        </div>
-      </div>
-    </motion.article>
+      ))}
+    </div>
   );
 }
 
 export function PortfolioGrid() {
   const [activeFilter, setActiveFilter] = useState<PortfolioFilter>('All');
   const [cloudVideos, setCloudVideos] = useState<CloudPortfolioVideo[]>([]);
+  const [videosLoading, setVideosLoading] = useState(true);
 
   useEffect(() => {
     let active = true;
 
-    const loadVideos = () => {
+    const loadVideos = (showLoading = false) => {
+      if (showLoading) {
+        setVideosLoading(true);
+      }
+
       fetch('/api/portfolio-videos', {cache: 'no-store'})
         .then((response) => response.json())
         .then((data: {videos?: CloudPortfolioVideo[]}) => {
@@ -206,11 +171,15 @@ export function PortfolioGrid() {
           if (active) {
             setCloudVideos([]);
           }
+        })
+        .finally(() => {
+          if (active && showLoading) {
+            setVideosLoading(false);
+          }
         });
-
     };
 
-    loadVideos();
+    loadVideos(true);
     const refreshInterval = window.setInterval(loadVideos, 5000);
 
     return () => {
@@ -225,27 +194,19 @@ export function PortfolioGrid() {
       id: video.id,
       title: video.title,
       category: video.category,
-      filterCategory: categoryToFilter[video.category] ?? 'Reels',
+      filterCategory: categoryToFilter[video.category] ?? 'Advertisement',
       videoUrl: video.video_url,
       description: video.description,
     }));
   }, [cloudVideos]);
 
-  const displayItems = useMemo<DisplayPortfolioItem[]>(() => {
-    if (cloudItems.length > 0) {
+  const filteredItems = useMemo(() => {
+    if (activeFilter === 'All') {
       return cloudItems;
     }
 
-    return portfolioItems.map((item) => ({...item, type: 'dummy'}));
-  }, [cloudItems]);
-
-  const filteredItems = useMemo(() => {
-    if (activeFilter === 'All') {
-      return displayItems;
-    }
-
-    return displayItems.filter((item) => item.filterCategory === activeFilter);
-  }, [activeFilter, displayItems]);
+    return cloudItems.filter((item) => item.filterCategory === activeFilter);
+  }, [activeFilter, cloudItems]);
 
   return (
     <section id="work" className="overflow-hidden bg-[#080809] py-20 sm:py-32">
@@ -281,25 +242,27 @@ export function PortfolioGrid() {
         </div>
 
         <div className="relative mt-8 md:mt-12">
-          <motion.div
-            layout
-            className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 pr-[18vw] md:grid md:snap-none md:grid-cols-2 md:gap-5 md:overflow-visible md:pb-0 md:pr-0 lg:grid-cols-3 xl:grid-cols-4"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredItems.map((item) =>
-                item.type === 'uploaded' ? (
+          {videosLoading ? (
+            <PortfolioLoadingGrid />
+          ) : (
+            <motion.div
+              layout
+              className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 pr-[18vw] md:grid md:snap-none md:grid-cols-2 md:gap-5 md:overflow-visible md:pb-0 md:pr-0 lg:grid-cols-3 xl:grid-cols-4"
+            >
+              <AnimatePresence mode="popLayout">
+                {filteredItems.map((item) => (
                   <UploadedPortfolioCard key={item.id} item={item} />
-                ) : (
-                  <DummyPortfolioCard key={item.title} item={item} />
-                ),
-              )}
-            </AnimatePresence>
-          </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          )}
         </div>
 
-        {filteredItems.length === 0 ? (
+        {!videosLoading && filteredItems.length === 0 ? (
           <div className="mt-8 rounded-2xl border border-dashed border-white/14 bg-white/[0.025] p-8 text-center text-sm font-bold text-white/50">
-            No uploaded videos in this portfolio filter yet.
+            {activeFilter === 'All'
+              ? 'No videos available yet.'
+              : 'No videos available in this category yet.'}
           </div>
         ) : null}
       </div>
